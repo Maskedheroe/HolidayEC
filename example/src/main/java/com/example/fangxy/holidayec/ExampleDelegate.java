@@ -35,7 +35,7 @@ public class ExampleDelegate extends LatteDelegate {
 
     private void testRestClient() {
         RestClient.bulider()
-                .url("https://samebug.io/exceptions/17955/java.lang.NoClassDefFoundError/androidsupportv4appfragmenttransitioncompat21epice?soft=false/")
+                .url("http://127.0.0.1/index")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override

@@ -7,6 +7,7 @@ import com.example.fangxy.latte_core.net.callback.IFailure;
 import com.example.fangxy.latte_core.net.callback.IRequrse;
 import com.example.fangxy.latte_core.net.callback.ISuccess;
 import com.example.fangxy.latte_core.net.callback.RequestCallBacks;
+import com.example.fangxy.latte_core.net.download.DownloadHandler;
 import com.example.fangxy.latte_core.ui.LatteLoader;
 import com.example.fangxy.latte_core.ui.LoaderStyle;
 
@@ -22,14 +23,14 @@ import retrofit2.Callback;
 public class RestClient {    //该类大致属于分配任务, 自身也处理一些任务
 
     private final String URL;
-    private static WeakHashMap<String,Object> PARAMS = RestCreator.getParams();
+    private static final WeakHashMap<String,Object> PARAMS = RestCreator.getParams();
     private final IRequrse REQUEST;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
-/*    private final String DOWNLOAD_DIR;
+    private final String DOWNLOAD_DIR;
     private final String EXTENSION;
-    private final String NAME;*/
+    private final String NAME;
     private final File FILE;
     private final RequestBody BODY;
     private final LoaderStyle LOADER_STYLE;  //加载指示器
@@ -41,9 +42,16 @@ public class RestClient {    //该类大致属于分配任务, 自身也处理�
                       ISuccess success,
                       IFailure failure,
                       IError error,
-                      File file, RequestBody body,
+                      String download_dir,
+                      String extension,
+                      String name,
+                      File file,
+                      RequestBody body,
                       LoaderStyle loaderStyle,
                       Context context) {
+        DOWNLOAD_DIR = download_dir;
+        EXTENSION = extension;
+        NAME = name;
         this.FILE = file;
         params.putAll(params);
         this.URL = url;
@@ -51,9 +59,6 @@ public class RestClient {    //该类大致属于分配任务, 自身也处理�
         this.SUCCESS = success;
         this.FAILURE = failure;
         this.ERROR = error;
-/*        this.DOWNLOAD_DIR = DOWNLOAD_DIR;
-        this.EXTENSION = EXTENSION;
-        this.NAME = NAME;*/
         this.BODY = body;
         this.LOADER_STYLE = loaderStyle;
         this.CONTEXT = context;
@@ -141,4 +146,12 @@ public class RestClient {    //该类大致属于分配任务, 自身也处理�
     public final void delete(){
         request(HttpMethod.DELETE);
     }
+
+    public final void download(){
+        new DownloadHandler(URL,REQUEST,SUCCESS,
+                FAILURE,ERROR,DOWNLOAD_DIR,
+                EXTENSION,NAME)
+                .handleDownload();
+    }
+
 }

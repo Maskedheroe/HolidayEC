@@ -22,7 +22,7 @@ public class RestClientBulider {
     private  ISuccess mISuccess;
     private  IFailure mIFailue;
     private  IError mIError;
-//    private  String mDownLoad;
+    private  String mdownloadir;
     private  String mExtension;
     private  String mName;
     private  RequestBody mBody;
@@ -93,6 +93,11 @@ public class RestClientBulider {
         return this;
     }
 
+    public final RestClientBulider dir(String dir){
+        this.mdownloadir = dir;
+        return this;
+    }
+
 
 
     public final RestClientBulider loader(Context context, LoaderStyle style){ //加载Loading
@@ -108,7 +113,7 @@ public class RestClientBulider {
     }
 
     public final RestClient build(){  //完成建造 build();!!!
-        return new RestClient(mUrl, PARAMS,mIRequest,mISuccess,mIFailue,mIError, mFile, mBody,mLoaderStyle,mContext);
+        return new RestClient(mUrl, PARAMS,mIRequest,mISuccess,mIFailue,mIError, mdownloadir, mExtension, mName, mFile, mBody,mLoaderStyle,mContext);
     }
 
 }
